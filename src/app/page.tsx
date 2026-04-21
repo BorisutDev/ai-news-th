@@ -50,17 +50,20 @@ export default function Home() {
             <Link href="/about" className="hover:text-white transition-colors">เกี่ยวกับเรา</Link>
             <Link href="/contact" className="hover:text-white transition-colors">ติดต่อเรา</Link>
           </nav>
-          <div style={{
-            fontSize: 11, fontWeight: 600,
-            background: 'rgba(139,92,246,0.1)',
-            color: '#c4b5fd',
-            border: '1px solid rgba(139,92,246,0.25)',
-            padding: '6px 14px', borderRadius: 999,
-            display: 'flex', alignItems: 'center', gap: 6,
-          }}>
-            <span style={{ width: 6, height: 6, background: '#a78bfa', borderRadius: '50%', animation: 'pulse 2s infinite' }} />
-            อัปเดตล่าสุด
-          </div>
+<Link href="/game" style={{
+  fontSize: 12, fontWeight: 700,
+  background: 'linear-gradient(135deg, #8b5cf6, #06b6d4)',
+  color: 'white',
+  padding: '8px 16px', borderRadius: 999,
+  display: 'flex', alignItems: 'center', gap: 6,
+  textDecoration: 'none',
+  boxShadow: '0 0 20px rgba(139,92,246,0.35)',
+  transition: 'transform 0.2s',
+}}
+onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1.05)'}
+onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1)'}>
+  🎮 เล่นเกม
+</Link>
         </div>
       </header>
 
