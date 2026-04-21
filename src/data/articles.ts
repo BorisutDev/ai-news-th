@@ -137,6 +137,6 @@ vocabulary: [
   readTime: 9,
   emoji: "📊",
   author: "ทีมข่าว AiNewsTH",
-  image: "https://www.rochester.edu/newscenter/artificial-general-intelligence-large-language-models-644892/"
+  image: "https://i.pinimg.com/736x/76/73/8a/76738a3cce94f472c46f3d83aa739e63.jpg"
 },
 ];
