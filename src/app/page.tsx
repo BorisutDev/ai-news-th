@@ -1,35 +1,11 @@
 'use client';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
-import { articles as staticArticles, Article } from '@/data/articles';
+import { articles } from '@/data/articles';
 
 export default function Home() {
-  const [liveArticles, setLiveArticles] = useState<Article[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch('/api/news')
-      .then(r => r.json())
-      .then(data => {
-        setLiveArticles(Array.isArray(data) ? data : []);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  }, []);
-
-  const all = liveArticles.length > 0 ? [...liveArticles, ...staticArticles] : staticArticles;
-  const featured = all[0];
-  const secondary = all.slice(1, 3);
-  const rest = all.slice(3);
-
-  if (loading) return (
-    <main className="min-h-screen bg-[#0a0a0a] text-white flex items-center justify-center">
-      <div className="text-center space-y-4">
-        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center font-black mx-auto animate-pulse">AI</div>
-        <p className="text-white/30 text-sm">กำลังโหลดข่าวล่าสุด...</p>
-      </div>
-    </main>
-  );
+  const featured = articles[0];
+  const secondary = articles.slice(1, 3);
+  const rest = articles.slice(3);
 
   return (
     <main className="min-h-screen bg-[#0a0a0a] text-white">
@@ -51,7 +27,7 @@ export default function Home() {
           </nav>
           <div className="flex items-center gap-2 text-xs bg-violet-500/10 text-violet-400 border border-violet-500/20 px-3 py-1.5 rounded-full font-semibold">
             <span className="w-1.5 h-1.5 bg-violet-400 rounded-full animate-pulse" />
-            Live
+            AI News
           </div>
         </div>
       </header>
@@ -59,54 +35,46 @@ export default function Home() {
       <div className="max-w-6xl mx-auto px-6 py-10">
 
         {/* Featured + Secondary */}
-        {featured && (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
 
-            {/* Featured — ใหญ่ซ้าย */}
-            <Link href={`/article/${featured.slug}`} className="lg:col-span-2 group rounded-2xl overflow-hidden bg-[#141414] border border-white/6 hover:border-violet-500/30 transition-all duration-300">
-              <div className="relative h-72 overflow-hidden">
-                {featured.image
-                  ? <img src={featured.image} alt={featured.title} className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500" />
-                  : <div className="w-full h-full bg-gradient-to-br from-violet-900/30 to-blue-900/30 flex items-center justify-center text-8xl">{featured.emoji}</div>
-                }
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-                <span className="absolute top-4 left-4 bg-violet-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">{featured.category}</span>
-              </div>
-              <div className="p-6">
-                <p className="text-white/30 text-xs mb-2">{featured.date} · {featured.readTime} นาทีอ่าน</p>
-                <h2 className="text-xl font-black leading-snug mb-2 group-hover:text-violet-300 transition-colors">{featured.title}</h2>
-                <p className="text-white/50 text-sm leading-relaxed line-clamp-2">{featured.excerpt}</p>
-              </div>
-            </Link>
-
-            {/* Secondary — 2 บทความขวา */}
-            <div className="flex flex-col gap-4">
-              {secondary.map(a => (
-                <Link key={a.slug} href={`/article/${a.slug}`} className="group flex-1 rounded-2xl overflow-hidden bg-[#141414] border border-white/6 hover:border-violet-500/20 transition-all">
-                  <div className="relative h-36 overflow-hidden">
-                    {a.image
-                      ? <img src={a.image} alt={a.title} className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500" />
-                      : <div className="w-full h-full bg-gradient-to-br from-violet-900/30 to-blue-900/30 flex items-center justify-center text-5xl">{a.emoji}</div>
-                    }
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                    <span className="absolute top-3 left-3 bg-black/50 backdrop-blur text-white/80 text-xs px-2 py-0.5 rounded-full">{a.category}</span>
-                  </div>
-                  <div className="p-4">
-                    <p className="text-white/25 text-xs mb-1">{a.date}</p>
-                    <h3 className="text-sm font-bold leading-snug group-hover:text-violet-300 transition-colors line-clamp-2">{a.title}</h3>
-                  </div>
-                </Link>
-              ))}
+          {/* Featured */}
+          <Link href={`/article/${featured.slug}`} className="lg:col-span-2 group rounded-2xl overflow-hidden bg-[#141414] border border-white/6 hover:border-violet-500/30 transition-all duration-300">
+            <div className="relative h-72 overflow-hidden bg-gradient-to-br from-violet-900/30 to-blue-900/30">
+              <div className="w-full h-full flex items-center justify-center text-8xl">{featured.emoji}</div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+              <span className="absolute top-4 left-4 bg-violet-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">{featured.category}</span>
             </div>
+            <div className="p-6">
+              <p className="text-white/30 text-xs mb-2">{featured.date} · {featured.readTime} นาทีอ่าน</p>
+              <h2 className="text-xl font-black leading-snug mb-2 group-hover:text-violet-300 transition-colors">{featured.title}</h2>
+              <p className="text-white/50 text-sm leading-relaxed line-clamp-2">{featured.excerpt}</p>
+            </div>
+          </Link>
+
+          {/* Secondary */}
+          <div className="flex flex-col gap-4">
+            {secondary.map(a => (
+              <Link key={a.slug} href={`/article/${a.slug}`} className="group flex-1 rounded-2xl overflow-hidden bg-[#141414] border border-white/6 hover:border-violet-500/20 transition-all">
+                <div className="relative h-36 overflow-hidden bg-gradient-to-br from-violet-900/20 to-blue-900/20">
+                  <div className="w-full h-full flex items-center justify-center text-5xl">{a.emoji}</div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  <span className="absolute top-3 left-3 bg-black/50 backdrop-blur text-white/80 text-xs px-2 py-0.5 rounded-full">{a.category}</span>
+                </div>
+                <div className="p-4">
+                  <p className="text-white/25 text-xs mb-1">{a.date}</p>
+                  <h3 className="text-sm font-bold leading-snug group-hover:text-violet-300 transition-colors line-clamp-2">{a.title}</h3>
+                </div>
+              </Link>
+            ))}
           </div>
-        )}
+        </div>
 
         {/* Adsense */}
         <div className="w-full h-20 rounded-xl border border-dashed border-white/8 flex items-center justify-center mb-10">
           <span className="text-white/20 text-sm">📢 Google Adsense — 728×90</span>
         </div>
 
-        {/* Latest news grid */}
+        {/* Latest */}
         <div className="mb-6 flex items-center gap-3">
           <div className="w-1 h-6 bg-gradient-to-b from-violet-500 to-cyan-500 rounded-full" />
           <h2 className="text-lg font-black">ข่าวล่าสุด</h2>
@@ -116,15 +84,10 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
           {rest.map(a => (
             <Link key={a.slug} href={`/article/${a.slug}`} className="group bg-[#141414] border border-white/6 rounded-2xl overflow-hidden hover:border-violet-500/20 transition-all hover:-translate-y-0.5">
-              {/* Image */}
               <div className="relative h-48 overflow-hidden bg-gradient-to-br from-violet-900/20 to-blue-900/20">
-                {a.image
-                  ? <img src={a.image} alt={a.title} className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500" />
-                  : <div className="w-full h-full flex items-center justify-center text-5xl">{a.emoji}</div>
-                }
+                <div className="w-full h-full flex items-center justify-center text-5xl">{a.emoji}</div>
                 <span className="absolute top-3 left-3 bg-black/50 backdrop-blur text-white/70 text-xs px-2.5 py-1 rounded-full">{a.category}</span>
               </div>
-              {/* Text */}
               <div className="p-5">
                 <h3 className="font-bold text-sm leading-snug mb-2 group-hover:text-violet-300 transition-colors line-clamp-2">{a.title}</h3>
                 <p className="text-white/40 text-xs leading-relaxed line-clamp-2 mb-4">{a.excerpt}</p>
