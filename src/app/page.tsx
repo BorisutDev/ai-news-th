@@ -3,6 +3,14 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { articles as staticArticles, Article } from '@/data/articles';
 
+export const metadata: Metadata = {
+  title: 'AiNewsTH — ข่าว AI และเทคโนโลยีภาษาไทย',
+  description: 'แหล่งข่าว AI และเทคโนโลยีภาษาไทย อัปเดตทุกวัน',
+  icons: {
+    icon: '/favicon.svg',
+  },
+};
+
 export default function Home() {
   const [liveArticles, setLiveArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);

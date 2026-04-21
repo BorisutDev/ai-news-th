@@ -4,6 +4,9 @@ import './globals.css';
 export const metadata: Metadata = {
   title: 'AiNewsTH — ข่าว AI และเทคโนโลยีภาษาไทย',
   description: 'แหล่งข่าว AI และเทคโนโลยีภาษาไทย อัปเดตทุกวัน',
+  icons: {
+    icon: '/favicon.svg',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
