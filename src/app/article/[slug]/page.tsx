@@ -2,11 +2,42 @@
 import Link from 'next/link';
 import { articles } from '@/data/articles';
 import { useParams } from 'next/navigation';
+import { useState, useEffect } from 'react';
 
 export default function ArticlePage() {
   const params = useParams();
   const slug = params?.slug as string;
-  const article = articles.find(a => a.slug === slug);
+  const [article, setArticle] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // เช็คใน static articles ก่อน
+    const static_article = articles.find(a => a.slug === slug);
+    if (static_article) {
+      setArticle(static_article);
+      setLoading(false);
+      return;
+    }
+
+    // ถ้าไม่เจอให้ดึงจาก NewsAPI
+    fetch('/api/news')
+      .then(r => r.json())
+      .then(data => {
+        const found = data.find((a: any) => a.slug === slug);
+        setArticle(found || null);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, [slug]);
+
+  if (loading) return (
+    <div className="min-h-screen bg-[#0a0a0f] text-white flex items-center justify-center">
+      <div className="text-center">
+        <div className="text-4xl mb-4 animate-pulse">🤖</div>
+        <p className="text-white/50">กำลังโหลด...</p>
+      </div>
+    </div>
+  );
 
   if (!article) return (
     <div className="min-h-screen bg-[#0a0a0f] text-white flex flex-col items-center justify-center gap-4">
@@ -23,7 +54,7 @@ export default function ArticlePage() {
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center text-xs font-black text-black">AI</div>
-            <span className="font-black text-xl tracking-tight">THAIAITECH<span className="text-cyan-400">.</span>NEWS</span>
+            <span className="font-black text-xl tracking-tight">AINEWSTH<span className="text-cyan-400">.</span>COM</span>
           </Link>
           <Link href="/" className="text-sm text-white/50 hover:text-white transition-colors">← กลับหน้าแรก</Link>
         </div>
@@ -44,10 +75,18 @@ export default function ArticlePage() {
           <span>⏱️ {article.readTime} นาที</span>
         </div>
 
-        <div className="w-full h-56 rounded-2xl bg-gradient-to-br from-blue-900/40 via-purple-900/20 to-cyan-900/30 flex items-center justify-center text-8xl mb-8 border border-white/10">
-          {article.emoji}
+        {/* Hero image */}
+        <div className="w-full h-64 rounded-2xl overflow-hidden mb-8 border border-white/10">
+          {article.image ? (
+            <img src={article.image} alt={article.title} className="w-full h-full object-cover" />
+          ) : (
+            <div className="w-full h-full bg-gradient-to-br from-blue-900/40 via-purple-900/20 to-cyan-900/30 flex items-center justify-center text-8xl">
+              {article.emoji}
+            </div>
+          )}
         </div>
 
+        {/* Adsense */}
         <div className="w-full h-20 rounded-xl border border-dashed border-white/20 flex items-center justify-center mb-8">
           <span className="text-white/30 text-sm">📢 Google Adsense</span>
         </div>
@@ -82,7 +121,7 @@ export default function ArticlePage() {
       </div>
 
       <footer className="border-t border-white/10 mt-16 py-8 text-center text-white/30 text-sm">
-        <p>© 2025 ThaiAITech.News · ข่าว AI และเทคโนโลยีภาษาไทย · Powered by Claude AI</p>
+        <p>© 2026 AiNewsTH.com · ข่าว AI และเทคโนโลยีภาษาไทย · Powered by Claude AI</p>
       </footer>
     </main>
   );
