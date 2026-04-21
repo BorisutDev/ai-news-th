@@ -99,9 +99,14 @@ export default function Home() {
         </section>
       </div>
 
-      <footer className="border-t border-white/10 mt-8 py-8 text-center text-white/30 text-sm">
-        <p>© 2025 ThaiAITech.News · ข่าว AI และเทคโนโลยีภาษาไทย · Powered by Claude AI</p>
-      </footer>
+<footer className="border-t border-white/10 mt-8 py-8 text-center text-white/30 text-sm">
+  <p className="mb-3">© 2025 AiNewsTH.com · ข่าว AI และเทคโนโลยีภาษาไทย · Powered by Claude AI</p>
+  <div className="flex items-center justify-center gap-6">
+    <a href="/about" className="hover:text-white transition-colors">เกี่ยวกับเรา</a>
+    <a href="/contact" className="hover:text-white transition-colors">ติดต่อเรา</a>
+    <a href="/privacy" className="hover:text-white transition-colors">นโยบายความเป็นส่วนตัว</a>
+  </div>
+</footer>
     </main>
   );
 }
