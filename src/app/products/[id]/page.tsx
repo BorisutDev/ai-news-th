@@ -7,23 +7,24 @@ export default function ProductPage() {
   const params = useParams();
   const id = params?.id as string;
   const product = products.find(p => p.id === id);
-  const related = products.filter(p => p.id !== id && p.category === product?.category).slice(0, 3);
+  const related = products.filter(p => p.id !== id).slice(0, 3);
 
   if (!product) return (
-    <div className="min-h-screen bg-[#080808] text-white flex flex-col items-center justify-center gap-4">
-      <p className="text-xl">ไม่พบสินค้า</p>
+    <div className="min-h-screen bg-[#0c0c0c] text-white flex flex-col items-center justify-center gap-4">
+      <p className="text-xl">ไม่พบบทความ</p>
       <Link href="/" className="text-[#39ff14] hover:underline">← กลับหน้าแรก</Link>
     </div>
   );
 
-  const discount = product.originalPrice
-    ? Math.round((1 - product.price / product.originalPrice) * 100)
-    : 0;
+  const overallScore = Math.round(
+    Object.values(product.scores).reduce((a, b) => a + b, 0) / Object.values(product.scores).length
+  );
 
   return (
-    <main className="min-h-screen bg-[#080808] text-white">
+    <main className="min-h-screen bg-[#0c0c0c] text-white">
+
       {/* Header */}
-      <header className="border-b border-white/5 sticky top-0 z-50 bg-[#080808]/95 backdrop-blur-xl">
+      <header className="border-b border-white/5 sticky top-0 z-50 bg-[#0c0c0c]/95 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <div className="w-8 h-8 border-2 border-[#39ff14] rotate-45 flex items-center justify-center">
@@ -35,133 +36,186 @@ export default function ProductPage() {
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-6 py-12">
+      <div className="max-w-4xl mx-auto px-6 py-12">
+
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-white/30 mb-8">
           <Link href="/" className="hover:text-white transition-colors">หน้าแรก</Link>
           <span>/</span>
           <span className="text-[#39ff14] uppercase tracking-wider">{product.category}</span>
           <span>/</span>
-          <span className="text-white/60 truncate">{product.name}</span>
+          <span className="text-white/50 truncate">{product.name}</span>
         </div>
 
-        {/* Product main */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
-          {/* Image */}
-          <div className="relative">
-            <div className="aspect-square bg-gradient-to-br from-[#1a1a1a] to-[#111] rounded-2xl border border-white/5 flex items-center justify-center text-[180px] relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-[#39ff14]/5 to-transparent" />
-              <div className="absolute top-0 right-0 w-64 h-64 bg-[#39ff14]/5 rounded-full blur-3xl" />
-              {product.emoji}
-              {product.badge && (
-                <div className="absolute top-6 left-6 bg-[#39ff14] text-black text-sm font-black px-3 py-1 rounded tracking-wider">
-                  {product.badge}
-                </div>
-              )}
-              {discount > 0 && (
-                <div className="absolute top-6 right-6 bg-red-500 text-white text-sm font-black px-3 py-1 rounded">
-                  -{discount}%
-                </div>
-              )}
-            </div>
+        {/* Article header */}
+        <div className="mb-10">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="bg-[#39ff14]/10 text-[#39ff14] border border-[#39ff14]/20 text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider">{product.category}</span>
+            {product.badge && <span className="bg-white/5 text-white/50 text-xs px-3 py-1 rounded-full">{product.badge}</span>}
           </div>
+          <h1 className="text-3xl md:text-5xl font-black leading-tight mb-4">{product.name}</h1>
+          <p className="text-[#39ff14] text-xl font-bold mb-6">{product.tagline}</p>
 
-          {/* Info */}
-          <div className="flex flex-col justify-center">
-            <div className="text-[#39ff14] text-xs font-bold tracking-widest uppercase mb-3">{product.category}</div>
-            <h1 className="text-3xl md:text-4xl font-black leading-tight mb-4">{product.name}</h1>
-
-            {/* Rating */}
-            <div className="flex items-center gap-3 mb-6">
-              <div className="flex items-center gap-1">
-                {[1,2,3,4,5].map(i => (
-                  <span key={i} className={i <= Math.floor(product.rating) ? 'text-yellow-400' : 'text-white/20'}>★</span>
-                ))}
-              </div>
-              <span className="text-yellow-400 font-bold">{product.rating}</span>
-              <span className="text-white/30 text-sm">({product.reviews.toLocaleString()} รีวิว)</span>
+          {/* Meta */}
+          <div className="flex items-center gap-4 text-white/30 text-sm border-b border-white/5 pb-6">
+            <span>✍️ ทีมงาน GearZone.TH</span>
+            <span>·</span>
+            <div className="flex items-center gap-1">
+              {[1,2,3,4,5].map(i => (
+                <span key={i} className={i <= Math.floor(product.rating) ? 'text-yellow-400' : 'text-white/20'}>★</span>
+              ))}
+              <span className="ml-1 text-yellow-400">{product.rating}</span>
             </div>
-
-            <p className="text-white/60 leading-relaxed mb-8">{product.description}</p>
-
-            {/* Price */}
-            <div className="flex items-end gap-4 mb-8">
-              <div className="text-[#39ff14] font-black text-5xl">฿{product.price.toLocaleString()}</div>
-              {product.originalPrice && (
-                <div className="text-white/30 text-xl line-through mb-1">฿{product.originalPrice.toLocaleString()}</div>
-              )}
-            </div>
-
-            {/* CTA */}
-            <div className="flex flex-col gap-3">
-              <a href={product.shopeeUrl} target="_blank" rel="noopener noreferrer"
-                className="flex items-center justify-center gap-3 bg-[#ee4d2d] hover:bg-[#ee4d2d]/90 text-white font-black py-4 px-8 rounded-xl transition-all hover:scale-105 text-lg tracking-wide">
-                🛒 ซื้อเลยที่ Shopee
-              </a>
-              <p className="text-white/20 text-xs text-center">* ราคาอาจเปลี่ยนแปลงตามช่วงเวลา กดลิงก์เพื่อดูราคาปัจจุบัน</p>
-            </div>
+            <span>·</span>
+            <span>{product.reviews.toLocaleString()} รีวิว</span>
           </div>
         </div>
 
-        {/* Adsense */}
-        <div className="w-full h-20 rounded-xl border border-dashed border-white/10 flex items-center justify-center mb-16">
-          <span className="text-white/20 text-sm">📢 Google Adsense</span>
-        </div>
+        {/* Hero image + Score */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div className="md:col-span-2 aspect-video bg-gradient-to-br from-[#1a1a1a] to-[#111] rounded-2xl border border-white/5 flex items-center justify-center text-[120px] relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#39ff14]/5 to-transparent" />
+            {product.emoji}
+          </div>
 
-        {/* Specs & Pros */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
-          <div className="bg-[#111] border border-white/5 rounded-2xl p-6">
-            <h2 className="font-black text-lg mb-4 flex items-center gap-2">
-              <span className="text-[#39ff14]">⚙️</span> สเปคหลัก
-            </h2>
-            <div className="space-y-3">
-              {product.specs.map((spec, i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <div className="w-1.5 h-1.5 bg-[#39ff14] rounded-full shrink-0" />
-                  <span className="text-white/70 text-sm">{spec}</span>
+          {/* Overall score */}
+          <div className="bg-[#111] border border-white/5 rounded-2xl p-6 flex flex-col items-center justify-center">
+            <div className="text-white/40 text-xs uppercase tracking-widest mb-2">คะแนนรวม</div>
+            <div className="text-7xl font-black text-[#39ff14] mb-2">{overallScore}</div>
+            <div className="text-white/30 text-xs mb-6">จาก 100</div>
+            <div className="w-full space-y-3">
+              {Object.entries(product.scores).map(([key, val]) => (
+                <div key={key}>
+                  <div className="flex items-center justify-between text-xs mb-1">
+                    <span className="text-white/40">
+                      {key === 'performance' ? 'ประสิทธิภาพ' : key === 'build' ? 'ความทนทาน' : key === 'value' ? 'ความคุ้มค่า' : 'ความสะดวก'}
+                    </span>
+                    <span className="text-[#39ff14] font-bold">{val}</span>
+                  </div>
+                  <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
+                    <div className="h-full bg-[#39ff14] rounded-full transition-all" style={{ width: `${val}%` }} />
+                  </div>
                 </div>
               ))}
             </div>
           </div>
+        </div>
 
-          <div className="bg-[#111] border border-white/5 rounded-2xl p-6">
-            <h2 className="font-black text-lg mb-4 flex items-center gap-2">
-              <span className="text-[#39ff14]">✅</span> จุดเด่น
-            </h2>
+        {/* Adsense top */}
+        <div className="w-full h-20 rounded-xl border border-dashed border-white/10 flex items-center justify-center mb-12">
+          <span className="text-white/20 text-sm">📢 Google Adsense</span>
+        </div>
+
+        {/* Review content */}
+        <article className="mb-12">
+          <h2 className="text-2xl font-black mb-6 flex items-center gap-3">
+            <div className="w-1 h-8 bg-[#39ff14]" />
+            รีวิวละเอียด
+          </h2>
+          <div className="text-white/70 leading-relaxed text-base space-y-4 whitespace-pre-line">
+            {product.review}
+          </div>
+        </article>
+
+        {/* Pros & Cons */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
+          <div className="bg-[#39ff14]/5 border border-[#39ff14]/20 rounded-2xl p-6">
+            <h3 className="font-black text-lg mb-4 text-[#39ff14]">✅ ข้อดี</h3>
             <div className="space-y-3">
               {product.pros.map((pro, i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <div className="text-[#39ff14] text-lg">✓</div>
+                <div key={i} className="flex items-start gap-3">
+                  <span className="text-[#39ff14] mt-0.5 shrink-0">✓</span>
                   <span className="text-white/70 text-sm">{pro}</span>
                 </div>
               ))}
             </div>
           </div>
-        </div>
-
-        {/* Related */}
-        {related.length > 0 && (
-          <div>
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-1 h-8 bg-[#39ff14]" />
-              <h2 className="text-xl font-black">สินค้าที่คล้ายกัน</h2>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {related.map(p => (
-                <Link key={p.id} href={`/product/${p.id}`}
-                  className="group bg-[#111] border border-white/5 rounded-xl p-4 hover:border-[#39ff14]/40 transition-all">
-                  <div className="text-4xl mb-3">{p.emoji}</div>
-                  <h3 className="font-bold text-sm leading-tight group-hover:text-[#39ff14] transition-colors mb-2">{p.name}</h3>
-                  <div className="text-[#39ff14] font-black">฿{p.price.toLocaleString()}</div>
-                </Link>
+          <div className="bg-red-500/5 border border-red-500/20 rounded-2xl p-6">
+            <h3 className="font-black text-lg mb-4 text-red-400">❌ ข้อเสีย</h3>
+            <div className="space-y-3">
+              {product.cons.map((con, i) => (
+                <div key={i} className="flex items-start gap-3">
+                  <span className="text-red-400 mt-0.5 shrink-0">✗</span>
+                  <span className="text-white/70 text-sm">{con}</span>
+                </div>
               ))}
             </div>
           </div>
-        )}
+        </div>
+
+        {/* Best for */}
+        <div className="bg-[#111] border border-white/5 rounded-2xl p-6 mb-12">
+          <h3 className="font-black text-lg mb-4">🎯 เหมาะสำหรับใคร?</h3>
+          <div className="flex flex-wrap gap-3">
+            {product.bestFor.map((b, i) => (
+              <span key={i} className="bg-white/5 text-white/60 text-sm px-4 py-2 rounded-full border border-white/10">
+                {b}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Specs */}
+        <div className="bg-[#111] border border-white/5 rounded-2xl p-6 mb-12">
+          <h3 className="font-black text-lg mb-4">⚙️ สเปคหลัก</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {product.specs.map((spec, i) => (
+              <div key={i} className="flex items-center gap-3 text-sm">
+                <div className="w-1.5 h-1.5 bg-[#39ff14] rounded-full shrink-0" />
+                <span className="text-white/60">{spec}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Verdict */}
+        <div className="bg-gradient-to-br from-[#39ff14]/10 to-transparent border border-[#39ff14]/20 rounded-2xl p-8 mb-12">
+          <h3 className="font-black text-xl mb-4 text-[#39ff14]">🏆 สรุปรีวิว</h3>
+          <p className="text-white/80 leading-relaxed text-base">{product.verdict}</p>
+        </div>
+
+        {/* Adsense middle */}
+        <div className="w-full h-20 rounded-xl border border-dashed border-white/10 flex items-center justify-center mb-12">
+          <span className="text-white/20 text-sm">📢 Google Adsense</span>
+        </div>
+
+        {/* Buy button */}
+        <div className="bg-[#111] border border-white/5 rounded-2xl p-8 mb-12 text-center">
+          <div className="text-white/40 text-sm mb-2">ราคาอ้างอิง</div>
+          <div className="text-5xl font-black text-white mb-1">฿{product.price.toLocaleString()}</div>
+          {product.originalPrice && (
+            <div className="text-white/30 line-through mb-6">฿{product.originalPrice.toLocaleString()}</div>
+          )}
+          <a href={product.shopeeUrl} target="_blank" rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-3 bg-[#ee4d2d] hover:bg-[#ee4d2d]/90 text-white font-black py-4 px-12 rounded-xl transition-all hover:scale-105 text-lg w-full max-w-sm">
+            🛒 ดูราคาและซื้อที่ Shopee
+          </a>
+          <p className="text-white/20 text-xs mt-4">* ราคาอาจเปลี่ยนแปลงตามโปรโมชั่น กดเพื่อดูราคาปัจจุบัน</p>
+        </div>
+
+        {/* Related reviews */}
+        <div>
+          <div className="flex items-center gap-4 mb-6">
+            <div className="w-1 h-8 bg-[#39ff14]" />
+            <h2 className="text-xl font-black">รีวิวที่น่าสนใจอื่นๆ</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {related.map(p => (
+              <Link key={p.id} href={`/product/${p.id}`}
+                className="group bg-[#111] border border-white/5 rounded-xl p-5 hover:border-[#39ff14]/30 transition-all">
+                <div className="text-4xl mb-3">{p.emoji}</div>
+                <div className="text-[#39ff14] text-xs font-bold uppercase tracking-wider mb-1">{p.category}</div>
+                <h3 className="font-bold text-sm leading-tight group-hover:text-[#39ff14] transition-colors mb-2 line-clamp-2">{p.name}</h3>
+                <p className="text-white/40 text-xs line-clamp-2 mb-3">{p.tagline}</p>
+                <span className="text-[#39ff14] text-xs font-bold">อ่านรีวิว →</span>
+              </Link>
+            ))}
+          </div>
+        </div>
       </div>
 
       <footer className="border-t border-white/5 mt-16 py-8 text-center text-white/20 text-sm">
-        <p>© 2026 GearZone.TH · แนะนำอุปกรณ์เกมมิ่งที่ดีที่สุด</p>
+        <p>© 2026 GearZone.TH · รีวิวอุปกรณ์เกมมิ่งโดยผู้เชี่ยวชาญ</p>
       </footer>
     </main>
   );
