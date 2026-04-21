@@ -111,7 +111,21 @@ export const articles: Article[] = [
   readTime: 8,
   emoji: "🗣️",
   author: "ทีมข่าว AiNewsTH",
-  image: "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=1200&q=80"
+image: "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=1200&q=80",
+vocabulary: [
+  { word: "fluency", type: "n.", meaning: "ความคล่องแคล่วในการพูด", example: "Her English fluency improved after 6 months of practice." },
+  { word: "pronunciation", type: "n.", meaning: "การออกเสียง", example: "Correct pronunciation is essential for being understood." },
+  { word: "phoneme", type: "n.", meaning: "หน่วยเสียงที่เล็กที่สุดในภาษา", example: "English has about 44 phonemes." },
+  { word: "immersive", type: "adj.", meaning: "ที่ทำให้รู้สึกเหมือนอยู่ในสถานการณ์จริง", example: "Immersive learning helps students pick up languages faster." },
+  { word: "feedback", type: "n.", meaning: "ผลตอบรับ / คำแนะนำ", example: "The AI gives instant feedback on grammar mistakes." },
+  { word: "vocabulary", type: "n.", meaning: "คำศัพท์", example: "Reading novels expands your vocabulary." },
+  { word: "grammar", type: "n.", meaning: "ไวยากรณ์", example: "English grammar has many exceptions." },
+  { word: "conversation", type: "n.", meaning: "การสนทนา", example: "AI apps let you practice real conversations." },
+  { word: "native speaker", type: "n.", meaning: "เจ้าของภาษา", example: "Native speakers use informal phrases often." },
+  { word: "roleplay", type: "n.", meaning: "การจำลองบทบาทสมมุติ", example: "Roleplay scenarios simulate real-life situations." },
+  { word: "tutor", type: "n.", meaning: "ครูสอนพิเศษ", example: "AI tutors are available 24 hours a day." },
+  { word: "accent", type: "n.", meaning: "สำเนียง", example: "Many Thai learners struggle with their accent." },
+],
 },
 {
   slug: "most-common-ai-use-cases-2026",
