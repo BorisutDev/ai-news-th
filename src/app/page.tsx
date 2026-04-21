@@ -1,20 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { articles as staticArticles } from '@/data/articles';
-
-export interface Article {
-  slug: string;
-  title: string;
-  excerpt: string;
-  content: string;
-  category: string;
-  date: string;
-  readTime: number;
-  emoji: string;
-  author: string;
-  image?: string;
-}
+import { articles as staticArticles, Article } from '@/data/articles';
 
 export default function Home() {
   const [liveArticles, setLiveArticles] = useState<Article[]>([]);
