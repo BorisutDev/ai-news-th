@@ -14,21 +14,15 @@ export async function POST(request: NextRequest) {
     messages: [
       {
         role: 'user',
-        content: `เขียนบทความข่าว AI/Tech ภาษาไทยเกี่ยวกับ "${topic}" ในรูปแบบ JSON ดังนี้:
-{
-  "title": "หัวข้อบทความ",
-  "excerpt": "สรุปย่อ 1-2 ประโยค",
-  "content": "เนื้อหาบทความยาว 3-4 ย่อหน้า",
-  "category": "หมวดหมู่ (AI, Hardware, Startup, Career, หรือ Open Source)",
-  "emoji": "emoji ที่เกี่ยวข้อง"
-}
-ตอบเป็น JSON เท่านั้น ไม่ต้องมีข้อความอื่น`
+        content: `เขียนบทความข่าว AI/Tech ภาษาไทยเกี่ยวกับ "${topic}" ตอบเป็น JSON เท่านั้น ห้ามมี markdown ห้ามมี backtick ห้ามมีข้อความอื่น ตอบแค่ JSON object นี้เท่านั้น:
+{"title":"หัวข้อบทความ","excerpt":"สรุปย่อ 1-2 ประโยค","content":"เนื้อหาบทความยาว 3-4 ย่อหน้า","category":"AI","emoji":"🤖"}`
       }
     ],
   });
 
   const text = message.content[0].type === 'text' ? message.content[0].text : '';
-  const article = JSON.parse(text);
+  const clean = text.replace(/```json|```/g, '').trim();
+  const article = JSON.parse(clean);
 
   return NextResponse.json(article);
 }
