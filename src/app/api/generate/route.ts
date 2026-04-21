@@ -11,16 +11,23 @@ export async function POST(request: NextRequest) {
   const message = await client.messages.create({
     model: 'claude-haiku-4-5',
     max_tokens: 2048,
+    tools: [
+      {
+        type: "web_search_20250305",
+        name: "web_search",
+      } as any
+    ],
     messages: [
       {
         role: 'user',
-        content: `เขียนบทความข่าว AI/Tech ภาษาไทยเกี่ยวกับ "${topic}" ตอบเป็น JSON เท่านั้น ห้ามมี markdown ห้ามมี backtick ห้ามมีข้อความอื่น ตอบแค่ JSON object นี้เท่านั้น:
-{"title":"หัวข้อบทความ","excerpt":"สรุปย่อ 1-2 ประโยค","content":"เนื้อหาบทความยาว 3-4 ย่อหน้า","category":"AI","emoji":"🤖"}`
+        content: `ค้นหาข่าวล่าสุดเกี่ยวกับ "${topic}" แล้วเขียนบทความข่าว AI/Tech ภาษาไทยที่มีข้อมูลเป็นปัจจุบัน ตอบเป็น JSON เท่านั้น ไม่มี markdown ไม่มี backtick:
+{"title":"หัวข้อบทความ","excerpt":"สรุปย่อ 1-2 ประโยค","content":"เนื้อหาบทความยาว 3-4 ย่อหน้าพร้อมข้อมูลปัจจุบัน","category":"AI","emoji":"🤖"}`
       }
     ],
   });
 
-  const text = message.content[0].type === 'text' ? message.content[0].text : '';
+  const textBlock = message.content.find(b => b.type === 'text');
+  const text = textBlock && textBlock.type === 'text' ? textBlock.text : '';
   const clean = text.replace(/```json|```/g, '').trim();
   const article = JSON.parse(clean);
 
