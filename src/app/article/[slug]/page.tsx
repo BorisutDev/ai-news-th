@@ -46,7 +46,7 @@ export default function ArticlePage() {
   const related = articles.filter(a => a.slug !== article.slug).slice(0, 3);
 
   return (
-    <main className="min-h-screen bg-[#050508] text-white">
+    <main className="min-h-screen text-white">
 
       {/* Header */}
       <header className="border-b border-white/5 sticky top-0 z-50 bg-[#050508]/90 backdrop-blur-xl">
