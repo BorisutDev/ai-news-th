@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { articles as staticArticles } from '@/data/articles';
 
-interface Article {
+export interface Article {
   slug: string;
   title: string;
   excerpt: string;
