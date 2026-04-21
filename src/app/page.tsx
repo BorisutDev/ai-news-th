@@ -1,153 +1,184 @@
 'use client';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
-import { articles as staticArticles, Article } from '@/data/articles';
-
-export const metadata: Metadata = {
-  title: 'AiNewsTH — ข่าว AI และเทคโนโลยีภาษาไทย',
-  description: 'แหล่งข่าว AI และเทคโนโลยีภาษาไทย อัปเดตทุกวัน',
-  icons: {
-    icon: '/favicon.svg',
-  },
-};
+import { useState } from 'react';
+import { products, categories } from '@/data/products';
 
 export default function Home() {
-  const [liveArticles, setLiveArticles] = useState<Article[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [activeCategory, setActiveCategory] = useState('all');
 
-  useEffect(() => {
-    fetch('/api/news')
-      .then(r => r.json())
-      .then(data => {
-        setLiveArticles(data);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  }, []);
+  const filtered = activeCategory === 'all'
+    ? products
+    : products.filter(p => p.category === activeCategory);
 
-  const allArticles = [...liveArticles, ...staticArticles];
-  const featured = allArticles[0];
-  const secondary = allArticles.slice(1, 4);
-  const rest = allArticles.slice(4);
-
-  if (loading) return (
-    <main className="min-h-screen bg-[#0a0a0f] text-white flex items-center justify-center">
-      <div className="text-center">
-        <div className="text-4xl mb-4 animate-pulse">🤖</div>
-        <p className="text-white/50">กำลังโหลดข่าวล่าสุด...</p>
-      </div>
-    </main>
-  );
+  const featured = products.slice(0, 3);
 
   return (
-    <main className="min-h-screen bg-[#0a0a0f] text-white">
+    <main className="min-h-screen bg-[#080808] text-white">
+
       {/* Header */}
-      <header className="border-b border-white/10 sticky top-0 z-50 bg-[#0a0a0f]/90 backdrop-blur-md">
+      <header className="border-b border-white/5 sticky top-0 z-50 bg-[#080808]/95 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center text-xs font-black text-black">AI</div>
-            <span className="font-black text-xl tracking-tight">AINEWSTH<span className="text-cyan-400">.</span>COM</span>
-          </div>
-          <nav className="hidden md:flex items-center gap-8 text-sm text-white/60">
-            <Link href="/" className="text-white font-medium">หน้าแรก</Link>
-            <Link href="/about" className="hover:text-white transition-colors">เกี่ยวกับเรา</Link>
-            <Link href="/contact" className="hover:text-white transition-colors">ติดต่อเรา</Link>
+          <Link href="/" className="flex items-center gap-2">
+            <div className="w-8 h-8 border-2 border-[#39ff14] rotate-45 flex items-center justify-center">
+              <div className="w-3 h-3 bg-[#39ff14]" />
+            </div>
+            <span className="font-black text-xl tracking-widest uppercase">GearZone<span className="text-[#39ff14]">.</span>TH</span>
+          </Link>
+          <nav className="hidden md:flex items-center gap-8 text-sm text-white/50">
+            {categories.slice(1).map(c => (
+              <button key={c.id} onClick={() => setActiveCategory(c.id)}
+                className={`hover:text-[#39ff14] transition-colors ${activeCategory === c.id ? 'text-[#39ff14]' : ''}`}>
+                {c.name}
+              </button>
+            ))}
           </nav>
-          <span className="text-xs bg-cyan-400/10 text-cyan-400 border border-cyan-400/30 px-3 py-1 rounded-full font-medium">🤖 AI-Powered</span>
+          <div className="text-xs bg-[#39ff14]/10 text-[#39ff14] border border-[#39ff14]/30 px-3 py-1 rounded-full font-bold tracking-wider">
+            🎮 GAMING GEAR
+          </div>
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-6 py-10">
-        {/* Breaking ticker */}
-        {featured && (
-          <div className="flex items-center gap-4 mb-10 overflow-hidden">
-            <span className="bg-red-500 text-white text-xs font-black px-3 py-1 rounded shrink-0">BREAKING</span>
-            <div className="text-sm text-white/60 truncate">{featured.title}</div>
-          </div>
-        )}
-
-        {/* Hero grid */}
-        {featured && (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-14">
-            <Link href={`/article/${featured.slug}`} className="lg:col-span-2 group relative overflow-hidden rounded-2xl bg-[#111118] border border-white/10 hover:border-cyan-400/40 transition-all duration-300">
-              <div className="h-72 lg:h-80 relative overflow-hidden">
-                {featured.image ? (
-                  <img src={featured.image} alt={featured.title} className="w-full h-full object-cover opacity-70 group-hover:opacity-90 transition-opacity" />
-                ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-blue-900/40 via-purple-900/20 to-cyan-900/30 flex items-center justify-center text-[120px] opacity-30">{featured.emoji}</div>
-                )}
-                <div className="absolute top-4 left-4">
-                  <span className="bg-cyan-400 text-black text-xs font-black px-3 py-1 rounded-full">{featured.category}</span>
-                </div>
+      {/* Hero */}
+      <section className="relative overflow-hidden border-b border-white/5">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#39ff14]/5 via-transparent to-transparent" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[#39ff14]/5 rounded-full blur-3xl" />
+        <div className="max-w-7xl mx-auto px-6 py-20 relative">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 bg-[#39ff14]/10 border border-[#39ff14]/20 px-4 py-2 rounded-full text-[#39ff14] text-xs font-bold tracking-widest mb-6">
+              ⚡ BEST GAMING GEAR 2026
+            </div>
+            <h1 className="text-5xl md:text-7xl font-black leading-none mb-6 tracking-tight">
+              อุปกรณ์เกม<br/>
+              <span className="text-[#39ff14]">ระดับโปร</span><br/>
+              ราคาคุ้มค่า
+            </h1>
+            <p className="text-white/50 text-lg mb-8 leading-relaxed">
+              รีวิวและแนะนำอุปกรณ์เกมมิ่งที่ดีที่สุด คัดมาแล้วโดยทีมงานผู้เชี่ยวชาญ พร้อมลิงก์ซื้อราคาดีที่สุดจาก Shopee
+            </p>
+            <div className="flex items-center gap-4">
+              <button onClick={() => document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' })}
+                className="bg-[#39ff14] text-black font-black px-8 py-4 rounded-lg hover:bg-[#39ff14]/90 transition-all hover:scale-105 tracking-wider">
+                ดูสินค้าทั้งหมด →
+              </button>
+              <div className="text-white/40 text-sm">
+                <span className="text-white font-bold">{products.length}+</span> สินค้าแนะนำ
               </div>
-              <div className="p-6">
-                <p className="text-white/50 text-xs mb-2">{featured.date} · {featured.readTime} นาที</p>
-                <h2 className="text-xl lg:text-2xl font-black leading-tight mb-3 group-hover:text-cyan-300 transition-colors">{featured.title}</h2>
-                <p className="text-white/60 text-sm leading-relaxed line-clamp-2">{featured.excerpt}</p>
-              </div>
-            </Link>
-
-            <div className="flex flex-col gap-4">
-              {secondary.map((a) => (
-                <Link key={a.slug} href={`/article/${a.slug}`} className="group flex gap-4 p-4 rounded-xl bg-[#111118] border border-white/8 hover:border-cyan-400/30 transition-all">
-                  <div className="w-14 h-14 rounded-lg overflow-hidden shrink-0">
-                    {a.image ? (
-                      <img src={a.image} alt={a.title} className="w-full h-full object-cover" />
-                    ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-blue-900/60 to-purple-900/60 flex items-center justify-center text-2xl">{a.emoji}</div>
-                    )}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <span className="text-xs text-cyan-400 font-medium">{a.category}</span>
-                    <h3 className="text-sm font-bold leading-tight mt-1 group-hover:text-cyan-300 transition-colors line-clamp-2">{a.title}</h3>
-                    <p className="text-white/40 text-xs mt-1">{a.date}</p>
-                  </div>
-                </Link>
-              ))}
             </div>
           </div>
-        )}
-
-        {/* Adsense */}
-        <div className="w-full h-20 rounded-xl border border-dashed border-white/20 flex items-center justify-center mb-14">
-          <span className="text-white/30 text-sm">📢 Google Adsense — Leaderboard 728×90</span>
         </div>
+      </section>
 
-        {/* Latest news */}
-        <section className="mb-14">
-          <div className="flex items-center gap-4 mb-6">
-            <h2 className="text-lg font-black">ข่าวล่าสุด</h2>
-            <div className="flex-1 h-px bg-white/10" />
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {rest.map((a) => (
-              <Link key={a.slug} href={`/article/${a.slug}`} className="group rounded-xl bg-[#111118] border border-white/8 hover:border-cyan-400/30 overflow-hidden transition-all">
-                <div className="h-40 overflow-hidden relative">
-                  {a.image ? (
-                    <img src={a.image} alt={a.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                  ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-blue-900/40 to-purple-900/30 flex items-center justify-center text-5xl">{a.emoji}</div>
-                  )}
-                  <div className="absolute top-3 left-3">
-                    <span className="bg-white/10 backdrop-blur text-white/70 text-xs px-2 py-0.5 rounded-full">{a.category}</span>
+      {/* Featured */}
+      <section className="max-w-7xl mx-auto px-6 py-16">
+        <div className="flex items-center gap-4 mb-8">
+          <div className="w-1 h-8 bg-[#39ff14]" />
+          <h2 className="text-2xl font-black tracking-tight">⭐ แนะนำพิเศษ</h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          {featured.map((p) => (
+            <Link key={p.id} href={`/product/${p.id}`}
+              className="group relative bg-[#111] border border-white/5 rounded-2xl overflow-hidden hover:border-[#39ff14]/40 transition-all duration-300">
+              <div className="absolute inset-0 bg-gradient-to-br from-[#39ff14]/0 group-hover:from-[#39ff14]/5 transition-all duration-500" />
+              {p.badge && (
+                <div className="absolute top-4 left-4 z-10 bg-[#39ff14] text-black text-xs font-black px-2 py-1 rounded tracking-wider">
+                  {p.badge}
+                </div>
+              )}
+              <div className="h-48 bg-gradient-to-br from-[#1a1a1a] to-[#111] flex items-center justify-center text-7xl group-hover:scale-110 transition-transform duration-500">
+                {p.emoji}
+              </div>
+              <div className="p-5">
+                <div className="text-[#39ff14] text-xs font-bold tracking-widest mb-1 uppercase">{p.category}</div>
+                <h3 className="font-black text-lg leading-tight mb-2 group-hover:text-[#39ff14] transition-colors">{p.name}</h3>
+                <p className="text-white/40 text-sm line-clamp-2 mb-4">{p.description}</p>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="text-[#39ff14] font-black text-xl">฿{p.price.toLocaleString()}</div>
+                    {p.originalPrice && <div className="text-white/30 text-xs line-through">฿{p.originalPrice.toLocaleString()}</div>}
+                  </div>
+                  <div className="flex items-center gap-1 text-yellow-400 text-sm">
+                    ⭐ {p.rating}
                   </div>
                 </div>
-                <div className="p-4">
-                  <h3 className="font-bold text-sm leading-tight mb-2 group-hover:text-cyan-300 transition-colors line-clamp-2">{a.title}</h3>
-                  <p className="text-white/50 text-xs line-clamp-2 mb-3">{a.excerpt}</p>
-                  <div className="flex items-center justify-between text-xs text-white/30">
-                    <span>{a.date}</span>
-                    <span>{a.readTime} นาทีอ่าน</span>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* Adsense */}
+      <div className="max-w-7xl mx-auto px-6 mb-12">
+        <div className="w-full h-20 rounded-xl border border-dashed border-white/10 flex items-center justify-center bg-white/2">
+          <span className="text-white/20 text-sm">📢 Google Adsense — Leaderboard</span>
+        </div>
       </div>
 
-      <footer className="border-t border-white/10 mt-8 py-8 text-center text-white/30 text-sm">
-        <p className="mb-3">© 2026 AiNewsTH.com · ข่าว AI และเทคโนโลยีภาษาไทย · Powered by Claude AI</p>
+      {/* All Products */}
+      <section id="products" className="max-w-7xl mx-auto px-6 pb-20">
+        <div className="flex items-center gap-4 mb-8">
+          <div className="w-1 h-8 bg-[#39ff14]" />
+          <h2 className="text-2xl font-black tracking-tight">🎮 สินค้าทั้งหมด</h2>
+        </div>
+
+        {/* Category filter */}
+        <div className="flex items-center gap-3 mb-8 overflow-x-auto pb-2">
+          {categories.map(c => (
+            <button key={c.id} onClick={() => setActiveCategory(c.id)}
+              className={`shrink-0 px-4 py-2 rounded-lg text-sm font-bold tracking-wider transition-all ${
+                activeCategory === c.id
+                  ? 'bg-[#39ff14] text-black'
+                  : 'bg-white/5 text-white/50 hover:bg-white/10 hover:text-white'
+              }`}>
+              {c.emoji} {c.name}
+            </button>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filtered.map((p) => (
+            <Link key={p.id} href={`/product/${p.id}`}
+              className="group bg-[#111] border border-white/5 rounded-2xl overflow-hidden hover:border-[#39ff14]/40 transition-all duration-300">
+              <div className="h-40 bg-gradient-to-br from-[#1a1a1a] to-[#111] flex items-center justify-center text-6xl group-hover:scale-110 transition-transform duration-300 relative">
+                {p.emoji}
+                {p.badge && (
+                  <div className="absolute top-3 right-3 bg-[#39ff14] text-black text-xs font-black px-2 py-0.5 rounded tracking-wider">
+                    {p.badge}
+                  </div>
+                )}
+              </div>
+              <div className="p-5">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[#39ff14] text-xs font-bold tracking-widest uppercase">{p.category}</span>
+                  <span className="text-yellow-400 text-xs">⭐ {p.rating} ({p.reviews.toLocaleString()})</span>
+                </div>
+                <h3 className="font-black text-base leading-tight mb-2 group-hover:text-[#39ff14] transition-colors line-clamp-1">{p.name}</h3>
+                <p className="text-white/40 text-xs line-clamp-2 mb-4">{p.description}</p>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="text-[#39ff14] font-black text-lg">฿{p.price.toLocaleString()}</div>
+                    {p.originalPrice && (
+                      <div className="text-white/30 text-xs line-through">฿{p.originalPrice.toLocaleString()}</div>
+                    )}
+                  </div>
+                  <div className="bg-[#39ff14]/10 border border-[#39ff14]/30 text-[#39ff14] text-xs font-bold px-3 py-1 rounded-lg">
+                    ดูเพิ่มเติม →
+                  </div>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-white/5 py-10 text-center text-white/20 text-sm">
+        <div className="flex items-center justify-center gap-2 mb-4">
+          <div className="w-6 h-6 border-2 border-[#39ff14]/50 rotate-45 flex items-center justify-center">
+            <div className="w-2 h-2 bg-[#39ff14]/50" />
+          </div>
+          <span className="font-black text-white/40 tracking-widest">GEARZONE.TH</span>
+        </div>
+        <p className="mb-3">© 2026 GearZone.TH · แนะนำอุปกรณ์เกมมิ่งที่ดีที่สุด</p>
         <div className="flex items-center justify-center gap-6">
           <a href="/about" className="hover:text-white transition-colors">เกี่ยวกับเรา</a>
           <a href="/contact" className="hover:text-white transition-colors">ติดต่อเรา</a>
