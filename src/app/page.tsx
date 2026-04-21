@@ -22,10 +22,13 @@ export default function Home() {
   const secondary = allArticles.slice(1, 4);
   const rest = allArticles.slice(4);
 
-  if (loading) return (
+if (loading) return (
     <main className="min-h-screen bg-[#0a0a0f] text-white flex items-center justify-center">
       <div className="text-center">
-        <div className="text-4xl mb-4 animate-pulse">🤖</div>
+        <div className="flex items-center gap-3 justify-center mb-4 animate-pulse">
+          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center text-lg font-black text-black">AI</div>
+          <span className="font-black text-3xl tracking-tight">AINEWSTH<span className="text-cyan-400">.</span>COM</span>
+        </div>
         <p className="text-white/50">กำลังโหลดข่าวล่าสุด...</p>
       </div>
     </main>
