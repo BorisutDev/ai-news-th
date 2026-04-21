@@ -87,5 +87,17 @@ export const articles: Article[] = [
     readTime: 6,
     emoji: "💼",
     author: "ทีมข่าว ThaiAITech"
-  }
+  },
+  {
+  slug: "apple-intelligence-คืออะไร",
+  title: "Apple Intelligence คืออะไร ระบบ AI ใหม่ที่จะเปลี่ยนวิธีใช้งาน iPhone และ Mac",
+  excerpt: "Apple Intelligence เป็นระบบปัญญาประดิษฐ์ที่บูรณาการเข้ากับ iOS, iPadOS และ macOS เพื่อให้อุปกรณ์ Apple ทำงานได้อย่างฉลาดและเป็นส่วนตัวยิ่งขึ้น",
+  content: "Apple Intelligence คือสาขาใหม่ของปัญญาประดิษฐ์ที่ Apple เปิดตัวครั้งแรกในปี 2024 ซึ่งออกแบบมาเพื่อทำให้ iPhone, iPad และ Mac มีความสามารถด้าน AI มากขึ้น\n\nลักษณะเด่นของ Apple Intelligence คือการประมวลผลเกิดขึ้นบนอุปกรณ์ (on-device processing) ซึ่งหมายความว่าข้อมูลส่วนใหญ่ของผู้ใช้จะไม่ต้องส่งไปยังเซิร์ฟเวอร์ของ Apple\n\nระบบนี้มีฟีเจอร์มากมาย เช่น Writing Tools, Genmoji, Image Playground และความสามารถใหม่ของ Siri ที่เข้าใจบริบทได้ดีขึ้น",
+  category: "AI",
+  date: "21 เม.ย. 2025",
+  readTime: 5,
+  emoji: "🤖",
+  author: "ทีมข่าว AiNewsTH"
+},
+  
 ];
