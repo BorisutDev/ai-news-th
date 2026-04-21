@@ -98,10 +98,80 @@ export default function ArticlePage() {
         </div>
 
         {/* Content */}
-        <article className="mb-12">
+<article className="mb-12">
           <p className="text-lg text-white/70 font-medium leading-relaxed mb-6 border-l-2 border-violet-500 pl-4">{article.excerpt}</p>
           <div className="text-white/60 leading-loose text-base whitespace-pre-wrap">{article.content}</div>
         </article>
+
+        {article.vocabulary && article.vocabulary.length > 0 && (
+          <div style={{
+            marginBottom: 40,
+            background: 'linear-gradient(180deg, rgba(139,92,246,0.05), rgba(6,182,212,0.03))',
+            border: '1px solid rgba(139,92,246,0.2)',
+            borderRadius: 20, padding: 28,
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
+              <div style={{
+                width: 44, height: 44, borderRadius: 12,
+                background: 'linear-gradient(135deg, #8b5cf6, #06b6d4)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22,
+              }}>📚</div>
+              <div>
+                <h2 style={{ fontSize: 20, fontWeight: 900, marginBottom: 2 }}>คำศัพท์ภาษาอังกฤษ</h2>
+                <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)' }}>รวมคำศัพท์น่ารู้จากบทความนี้</p>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {article.vocabulary.map((v: any, i: number) => (
+                <details key={i} style={{
+                  background: 'rgba(255,255,255,0.03)',
+                  border: '1px solid rgba(255,255,255,0.06)',
+                  borderRadius: 12,
+                  padding: '14px 18px',
+                  cursor: 'pointer',
+                }}>
+                  <summary style={{
+                    display: 'flex', alignItems: 'center', gap: 12,
+                    listStyle: 'none', outline: 'none',
+                    flexWrap: 'wrap',
+                  }}>
+                    <span style={{
+                      fontSize: 15, fontWeight: 800, color: '#c4b5fd',
+                      fontFamily: "'Courier New', monospace",
+                    }}>{v.word}</span>
+                    <span style={{
+                      fontSize: 11, color: 'rgba(255,255,255,0.4)',
+                      background: 'rgba(255,255,255,0.05)',
+                      padding: '2px 8px', borderRadius: 6,
+                      fontStyle: 'italic',
+                    }}>{v.type}</span>
+                    <span style={{ flex: 1, textAlign: 'right', fontSize: 14, color: 'rgba(255,255,255,0.7)' }}>
+                      {v.meaning}
+                    </span>
+                  </summary>
+                  <div style={{
+                    marginTop: 10, paddingTop: 10,
+                    borderTop: '1px solid rgba(255,255,255,0.05)',
+                    fontSize: 13, color: 'rgba(255,255,255,0.5)',
+                    lineHeight: 1.7,
+                  }}>
+                    <span style={{ color: '#67e8f9', fontWeight: 600 }}>ตัวอย่าง: </span>
+                    {v.example}
+                  </div>
+                </details>
+              ))}
+            </div>
+
+            <div style={{
+              marginTop: 16, paddingTop: 14,
+              borderTop: '1px solid rgba(255,255,255,0.05)',
+              fontSize: 11, color: 'rgba(255,255,255,0.3)', textAlign: 'center',
+            }}>
+              💡 กดที่คำศัพท์เพื่อดูตัวอย่างประโยค
+            </div>
+          </div>
+        )}
 
         {/* Tags */}
         <div className="flex flex-wrap gap-2 mb-12">

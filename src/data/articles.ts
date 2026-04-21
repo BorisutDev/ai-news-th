@@ -9,6 +9,7 @@ export interface Article {
   emoji: string;
   author: string;
   image?: string;
+  vocabulary?: { word: string; type: string; meaning: string; example: string }[];
 }
 
 export const articles: Article[] = [
