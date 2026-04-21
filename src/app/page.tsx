@@ -50,20 +50,20 @@ export default function Home() {
             <Link href="/about" className="hover:text-white transition-colors">เกี่ยวกับเรา</Link>
             <Link href="/contact" className="hover:text-white transition-colors">ติดต่อเรา</Link>
           </nav>
-<Link href="/game" style={{
-  fontSize: 12, fontWeight: 700,
-  background: 'linear-gradient(135deg, #8b5cf6, #06b6d4)',
-  color: 'white',
-  padding: '8px 16px', borderRadius: 999,
-  display: 'flex', alignItems: 'center', gap: 6,
-  textDecoration: 'none',
-  boxShadow: '0 0 20px rgba(139,92,246,0.35)',
-  transition: 'transform 0.2s',
-}}
-onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1.05)'}
-onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1)'}>
-  🎮 เล่นเกม
-</Link>
+          <a href="#latest" style={{
+            fontSize: 12, fontWeight: 700,
+            background: 'linear-gradient(135deg, #8b5cf6, #06b6d4)',
+            color: 'white',
+            padding: '8px 16px', borderRadius: 999,
+            display: 'flex', alignItems: 'center', gap: 6,
+            textDecoration: 'none',
+            boxShadow: '0 0 20px rgba(139,92,246,0.35)',
+            transition: 'transform 0.2s',
+          }}
+          onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1.05)'}
+          onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1)'}>
+            📰 ข่าวล่าสุด
+          </a>
         </div>
       </header>
 
@@ -108,8 +108,14 @@ onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.transform = 'sca
                   background: 'linear-gradient(135deg, rgba(88,28,220,0.3), rgba(15,23,42,0.8), rgba(8,70,100,0.3))',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                 }}>
-                  <div style={{ fontSize: 120, opacity: 0.12, filter: 'blur(20px)', position: 'absolute', userSelect: 'none' }}>{featured.emoji}</div>
-                  <div style={{ fontSize: 90, position: 'relative', zIndex: 1 }}>{featured.emoji}</div>
+                  {featured.image ? (
+                    <img src={featured.image} alt={featured.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  ) : (
+                    <>
+                      <div style={{ fontSize: 120, opacity: 0.12, filter: 'blur(20px)', position: 'absolute', userSelect: 'none' }}>{featured.emoji}</div>
+                      <div style={{ fontSize: 90, position: 'relative', zIndex: 1 }}>{featured.emoji}</div>
+                    </>
+                  )}
                   <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, #08080f 0%, rgba(8,8,15,0.3) 60%, transparent 100%)' }} />
                   <div style={{
                     position: 'absolute', top: 20, left: 20,
@@ -161,8 +167,14 @@ onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.transform = 'sca
                     background: 'linear-gradient(135deg, rgba(88,28,220,0.2), rgba(15,23,42,0.9))',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}>
-                    <div style={{ fontSize: 60, opacity: 0.1, filter: 'blur(12px)', position: 'absolute' }}>{a.emoji}</div>
-                    <div style={{ fontSize: 40, position: 'relative', zIndex: 1 }}>{a.emoji}</div>
+                    {a.image ? (
+                      <img src={a.image} alt={a.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    ) : (
+                      <>
+                        <div style={{ fontSize: 60, opacity: 0.1, filter: 'blur(12px)', position: 'absolute' }}>{a.emoji}</div>
+                        <div style={{ fontSize: 40, position: 'relative', zIndex: 1 }}>{a.emoji}</div>
+                      </>
+                    )}
                     <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(8,8,15,0.9), transparent)' }} />
                     <span style={{
                       position: 'absolute', top: 10, left: 10,
@@ -197,7 +209,7 @@ onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.transform = 'sca
       </div>
 
       {/* Latest */}
-      <section className="max-w-6xl mx-auto px-6 pb-20">
+      <section id="latest" className="max-w-6xl mx-auto px-6 pb-20" style={{ scrollMarginTop: 80 }}>
         <div className="flex items-center gap-3 mb-8">
           <div style={{ width: 3, height: 22, borderRadius: 4, background: 'linear-gradient(to bottom, #8b5cf6, #06b6d4)' }} />
           <span style={{ fontWeight: 800, fontSize: 16, letterSpacing: '-0.01em' }}>ข่าวล่าสุด</span>
@@ -232,8 +244,14 @@ onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.transform = 'sca
                   background: 'linear-gradient(135deg, rgba(88,28,220,0.2), rgba(8,8,15,1))',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
                 }}>
-                  <div style={{ fontSize: 100, opacity: 0.08, filter: 'blur(20px)', position: 'absolute', userSelect: 'none' }}>{a.emoji}</div>
-                  <div style={{ fontSize: 50, position: 'relative', zIndex: 1, transition: 'transform 0.4s ease' }} className="group-hover:scale-110">{a.emoji}</div>
+                  {a.image ? (
+                    <img src={a.image} alt={a.title} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.4s ease' }} className="group-hover:scale-105" />
+                  ) : (
+                    <>
+                      <div style={{ fontSize: 100, opacity: 0.08, filter: 'blur(20px)', position: 'absolute', userSelect: 'none' }}>{a.emoji}</div>
+                      <div style={{ fontSize: 50, position: 'relative', zIndex: 1, transition: 'transform 0.4s ease' }} className="group-hover:scale-110">{a.emoji}</div>
+                    </>
+                  )}
                   <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(8,8,15,0.95), transparent 60%)' }} />
                   <span style={{
                     position: 'absolute', top: 12, left: 12,
