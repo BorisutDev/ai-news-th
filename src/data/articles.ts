@@ -8,6 +8,7 @@ export interface Article {
   readTime: number;
   emoji: string;
   author: string;
+  image?: string;
 }
 
 export const articles: Article[] = [
