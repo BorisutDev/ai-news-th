@@ -14,6 +14,30 @@ export interface Article {
 
 export const articles: Article[] = [
   {
+    slug: "anthropic-mythos-cybersecurity-ai-2026",
+    title: "Anthropic เปิดตัว Claude Mythos: AI ไซเบอร์ซิเคียวริตี้ที่ทรงพลังเกินกว่าจะปล่อยให้สาธารณชนใช้",
+    excerpt: "Anthropic เผยโฉม Claude Mythos Preview โมเดล AI ที่ถูกเรียกว่าทรงพลังที่สุดของบริษัท สามารถค้นหาและเชื่อมโยงช่องโหว่ซอฟต์แวร์ได้อัตโนมัติ แต่ถูกจำกัดการเข้าถึงเฉพาะบริษัทคัดเลือกภายใต้ Project Glasswing",
+    content: "Anthropic เปิดตัว Claude Mythos Preview ในเดือนเมษายน 2026 ซึ่งถูกอธิบายว่าเป็นโมเดล AI ที่ทรงพลังที่สุดของบริษัทจนถึงปัจจุบัน โดยเฉพาะในด้านไซเบอร์ซิเคียวริตี้ ด้วยขีดความสามารถที่สูงมากจนบริษัทตัดสินใจไม่ปล่อยให้สาธารณชนเข้าถึง\n\nMythos ถูกมองว่าเป็นทั้งเครื่องมือป้องกันที่ทรงพลังและอาวุธไซเบอร์เชิงรุกที่อันตราย ความสามารถหลักของ Mythos คือการค้นหาช่องโหว่ในซอฟต์แวร์ได้อย่างอัตโนมัติ และสามารถเชื่อมโยงช่องโหว่หลายจุดเข้าด้วยกันเพื่อสร้าง exploit chain ได้โดยไม่ต้องอาศัยมนุษย์ ซึ่งถือเป็น step change ในวงการ AI ด้านความปลอดภัย\n\nAnthropic จำกัดการเข้าถึง Mythos ภายใต้โครงการ Project Glasswing โดยเปิดให้เฉพาะบริษัทเทคโนโลยีและสถาบันการเงินชั้นนำเท่านั้น ได้แก่ Amazon, Apple, JP Morgan Chase, Goldman Sachs, Citigroup, Bank of America และ Morgan Stanley\n\nรัฐมนตรีกระทรวงการคลังสหรัฐฯ Scott Bessent ได้จัดประชุมกับผู้บริหารธนาคารชั้นนำในกรุงวอชิงตัน เพื่อหารือเกี่ยวกับ Mythos และสนับสนุนให้ใช้โมเดลนี้ในการตรวจจับช่องโหว่ด้านความปลอดภัยทางไซเบอร์\n\nอย่างไรก็ตาม เมื่อวันที่ 21 เมษายน 2026 Bloomberg รายงานว่ากลุ่มผู้ใช้ที่ไม่ได้รับอนุญาตจำนวนหนึ่งสามารถเข้าถึง Mythos ได้ในวันเดียวกับที่ Anthropic ประกาศแผนปล่อยโมเดล กลุ่มนี้เข้าถึงผ่านช่องทางของผู้ให้บริการบุคคลที่สาม (third-party vendor) โดยคาดเดาตำแหน่งออนไลน์ของโมเดลจากรูปแบบ URL ที่ Anthropic เคยใช้กับโมเดลอื่นๆ\n\nกลุ่มผู้ใช้ดังกล่าวเป็นสมาชิกของช่อง Discord ที่มุ่งค้นหาข้อมูลเกี่ยวกับโมเดล AI ที่ยังไม่เปิดตัว โดยแหล่งข่าวระบุว่ากลุ่มนี้สนใจเพียงการทดลองใช้โมเดลใหม่ ไม่ได้มีเจตนาสร้างความเสียหาย และไม่ได้ใช้ Mythos เพื่อวัตถุประสงค์ด้านไซเบอร์ซิเคียวริตี้\n\nAnthropic ตอบสนองต่อเรื่องนี้โดยระบุว่ากำลังสืบสวนรายงานดังกล่าว และยืนยันว่ายังไม่พบหลักฐานว่าระบบของ Anthropic ได้รับผลกระทบ หรือกิจกรรมดังกล่าวขยายออกไปนอกเหนือจากสภาพแวดล้อมของ vendor บุคคลที่สาม\n\nเหตุการณ์นี้ทำให้เกิดคำถามสำคัญเกี่ยวกับความปลอดภัยของ AI ที่ทรงพลัง ว่าการจำกัดการเข้าถึงเพียงอย่างเดียวเพียงพอหรือไม่ในการป้องกันการรั่วไหลของเทคโนโลยีที่อาจเป็นอันตราย",
+    category: "AI",
+    date: "22 เม.ย. 2569",
+    readTime: 6,
+    emoji: "🔐",
+    author: "ทีมข่าว AiNewsTH",
+    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&q=80",
+    vocabulary: [
+      { word: "cybersecurity", type: "n.", meaning: "ความปลอดภัยทางไซเบอร์", example: "Cybersecurity is critical for protecting sensitive data." },
+      { word: "vulnerability", type: "n.", meaning: "ช่องโหว่ / จุดอ่อน", example: "The team discovered a critical vulnerability in the software." },
+      { word: "exploit", type: "n.", meaning: "โปรแกรมหรือเทคนิคที่ใช้ประโยชน์จากช่องโหว่", example: "Hackers used an exploit to gain unauthorized access." },
+      { word: "unauthorized", type: "adj.", meaning: "ที่ไม่ได้รับอนุญาต", example: "Unauthorized access to the system was detected." },
+      { word: "vendor", type: "n.", meaning: "ผู้ให้บริการ / ผู้ขาย", example: "The data breach occurred through a third-party vendor." },
+      { word: "breach", type: "n.", meaning: "การเจาะระบบ / การละเมิด", example: "The security breach exposed millions of user records." },
+      { word: "defensive", type: "adj.", meaning: "เชิงป้องกัน", example: "The company invested in defensive cybersecurity measures." },
+      { word: "offensive", type: "adj.", meaning: "เชิงรุก / เชิงโจมตี", example: "Offensive cyber tools can be dangerous in the wrong hands." },
+      { word: "autonomous", type: "adj.", meaning: "ที่ทำงานได้ด้วยตัวเอง / อัตโนมัติ", example: "The AI can autonomously detect and patch security flaws." },
+      { word: "investigate", type: "v.", meaning: "สืบสวน / ตรวจสอบ", example: "Anthropic is investigating the unauthorized access report." },
+    ]
+  },
+  {
     slug: "claude-4-anthropic-2025",
     title: "Anthropic เปิดตัว Claude 4: โมเดล AI ที่เก่งด้านโค้ดที่สุดในโลก",
     excerpt: "Anthropic ประกาศเปิดตัว Claude Opus 4 และ Claude Sonnet 4 อย่างเป็นทางการเมื่อเดือนพฤษภาคม 2025 พร้อมความสามารถด้านการเขียนโค้ดและการให้เหตุผลที่ดีที่สุดในตลาด",
